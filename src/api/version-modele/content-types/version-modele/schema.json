@@ -4,7 +4,7 @@
   "info": {
     "singularName": "version-modele",
     "pluralName": "version-modeles",
-    "displayName": "VersionModele"
+    "displayName": "VersionModèle"
   },
   "options": {
     "draftAndPublish": true
@@ -12,14 +12,18 @@
   "pluginOptions": {},
   "attributes": {
     "identifiant_version": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "unique": true
     },
     "date_publication": {
-      "type": "date"
+      "type": "datetime",
+      "required": true
     },
-    "fichier_modle": {
+    "fichier_modele": {
       "type": "media",
       "multiple": true,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
@@ -30,13 +34,22 @@
     "taille_fichier": {
       "type": "integer"
     },
-    "est_stable": {
-      "type": "boolean"
-    },
     "note_version": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::note-version.note-version",
+      "mappedBy": "version_modele"
+    },
+    "guide_demarrages": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::guide-demarrage.guide-demarrage",
+      "mappedBy": "version_modele"
+    },
+    "contenu_libres": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::contenu-libre.contenu-libre",
       "mappedBy": "version_modele"
     }
   }

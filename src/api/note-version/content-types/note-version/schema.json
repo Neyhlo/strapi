@@ -12,16 +12,17 @@
   "pluginOptions": {},
   "attributes": {
     "titre": {
-      "type": "string"
-    },
-    "contenu_detaille": {
-      "type": "richtext"
+      "type": "string",
+      "required": true
     },
     "version_modele": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::version-modele.version-modele",
       "inversedBy": "note_version"
+    },
+    "contenu_detaille": {
+      "type": "richtext"
     }
   }
 }

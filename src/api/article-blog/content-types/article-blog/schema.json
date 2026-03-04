@@ -12,13 +12,16 @@
   "pluginOptions": {},
   "attributes": {
     "slug": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "unique": true
     },
     "titre_article": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "resume": {
-      "type": "string"
+      "type": "text"
     },
     "corps_article": {
       "type": "richtext"
@@ -34,19 +37,14 @@
       ]
     },
     "date_publication": {
-      "type": "date"
+      "type": "datetime",
+      "required": true
     },
     "auteurs": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::auteur.auteur",
-      "mappedBy": "lien_auteur"
-    },
-    "tags": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::tag.tag",
-      "inversedBy": "tag"
+      "mappedBy": "article_blog"
     }
   }
 }

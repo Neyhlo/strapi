@@ -1,0 +1,51 @@
+{
+  "kind": "collectionType",
+  "collectionName": "contenu_libres",
+  "info": {
+    "singularName": "contenu-libre",
+    "pluralName": "contenu-libres",
+    "displayName": "ContenuLibre "
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "titre": {
+      "type": "string",
+      "required": true
+    },
+    "type_page": {
+      "type": "enumeration",
+      "required": true,
+      "enum": [
+        "doc_technique ",
+        "guide_contribution"
+      ]
+    },
+    "resume": {
+      "type": "text"
+    },
+    "contenu_principal": {
+      "type": "richtext",
+      "required": true
+    },
+    "contenu_secondaire": {
+      "type": "richtext"
+    },
+    "contenu_tertiaire": {
+      "type": "richtext"
+    },
+    "version_modele": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::version-modele.version-modele",
+      "inversedBy": "contenu_libres"
+    }
+  }
+}

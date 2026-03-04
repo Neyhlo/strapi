@@ -11,8 +11,15 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "article_blog": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::article-blog.article-blog",
+      "inversedBy": "auteurs"
+    },
     "nom_complet": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "avatar": {
       "type": "media",
@@ -23,15 +30,6 @@
         "videos",
         "audios"
       ]
-    },
-    "biographie": {
-      "type": "text"
-    },
-    "lien_auteur": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::article-blog.article-blog",
-      "inversedBy": "auteurs"
     }
   }
 }

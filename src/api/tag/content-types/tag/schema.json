@@ -12,16 +12,14 @@
   "pluginOptions": {},
   "attributes": {
     "nom_tag": {
-      "type": "string"
+      "type": "string",
+      "required": true,
+      "unique": true
     },
     "slug": {
-      "type": "string"
-    },
-    "tag": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::article-blog.article-blog",
-      "mappedBy": "tags"
+      "type": "string",
+      "required": true,
+      "unique": true
     }
   }
 }

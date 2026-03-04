@@ -483,7 +483,7 @@ export interface ApiArticleBlogArticleBlog extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    date_publication: Schema.Attribute.Date;
+    date_publication: Schema.Attribute.DateTime & Schema.Attribute.Required;
     image_couverture: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios'
     >;
@@ -494,10 +494,11 @@ export interface ApiArticleBlogArticleBlog extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    resume: Schema.Attribute.String;
-    slug: Schema.Attribute.String;
-    tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
-    titre_article: Schema.Attribute.String;
+    resume: Schema.Attribute.Text;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    titre_article: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -515,26 +516,175 @@ export interface ApiAuteurAuteur extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    avatar: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    biographie: Schema.Attribute.Text;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    lien_auteur: Schema.Attribute.Relation<
+    article_blog: Schema.Attribute.Relation<
       'manyToOne',
       'api::article-blog.article-blog'
     >;
+    avatar: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::auteur.auteur'
     > &
       Schema.Attribute.Private;
-    nom_complet: Schema.Attribute.String;
+    nom_complet: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiContenuLibreContenuLibre
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'contenu_libres';
+  info: {
+    displayName: 'ContenuLibre ';
+    pluralName: 'contenu-libres';
+    singularName: 'contenu-libre';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    contenu_principal: Schema.Attribute.RichText & Schema.Attribute.Required;
+    contenu_secondaire: Schema.Attribute.RichText;
+    contenu_tertiaire: Schema.Attribute.RichText;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::contenu-libre.contenu-libre'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    resume: Schema.Attribute.Text;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    titre: Schema.Attribute.String & Schema.Attribute.Required;
+    type_page: Schema.Attribute.Enumeration<
+      ['doc_technique ', 'guide_contribution']
+    > &
+      Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    version_modele: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::version-modele.version-modele'
+    >;
+  };
+}
+
+export interface ApiEntreeFaqEntreeFaq extends Struct.CollectionTypeSchema {
+  collectionName: 'entree_faqs';
+  info: {
+    displayName: 'EntreeFAQ ';
+    pluralName: 'entree-faqs';
+    singularName: 'entree-faq';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    categorie: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::entree-faq.entree-faq'
+    > &
+      Schema.Attribute.Private;
+    ordre: Schema.Attribute.Integer;
+    publishedAt: Schema.Attribute.DateTime;
+    question: Schema.Attribute.String & Schema.Attribute.Required;
+    reponse: Schema.Attribute.RichText & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiExempleDemoExempleDemo extends Struct.CollectionTypeSchema {
+  collectionName: 'exemple_demos';
+  info: {
+    displayName: 'ExempleDemo ';
+    pluralName: 'exemple-demos';
+    singularName: 'exemple-demo';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Text;
+    langage: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::exemple-demo.exemple-demo'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    snippet_code: Schema.Attribute.RichText;
+    titre: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiGuideDemarrageGuideDemarrage
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'guide_demarrages';
+  info: {
+    displayName: 'GuideDemarrage';
+    pluralName: 'guide-demarrages';
+    singularName: 'guide-demarrage';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    depannage: Schema.Attribute.RichText;
+    etapes: Schema.Attribute.RichText & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::guide-demarrage.guide-demarrage'
+    > &
+      Schema.Attribute.Private;
+    prerequis: Schema.Attribute.RichText;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    titre: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    version_modele: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::version-modele.version-modele'
+    >;
   };
 }
 
@@ -560,7 +710,7 @@ export interface ApiNoteVersionNoteVersion extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    titre: Schema.Attribute.String;
+    titre: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -588,13 +738,13 @@ export interface ApiTagTag extends Struct.CollectionTypeSchema {
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'> &
       Schema.Attribute.Private;
-    nom_tag: Schema.Attribute.String;
+    nom_tag: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.String;
-    tag: Schema.Attribute.Relation<
-      'manyToMany',
-      'api::article-blog.article-blog'
-    >;
+    slug: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -605,7 +755,7 @@ export interface ApiVersionModeleVersionModele
   extends Struct.CollectionTypeSchema {
   collectionName: 'version_modeles';
   info: {
-    displayName: 'VersionModele';
+    displayName: 'VersionMod\u00E8le';
     pluralName: 'version-modeles';
     singularName: 'version-modele';
   };
@@ -613,16 +763,26 @@ export interface ApiVersionModeleVersionModele
     draftAndPublish: true;
   };
   attributes: {
+    contenu_libres: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::contenu-libre.contenu-libre'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    date_publication: Schema.Attribute.Date;
-    est_stable: Schema.Attribute.Boolean;
-    fichier_modle: Schema.Attribute.Media<
+    date_publication: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    fichier_modele: Schema.Attribute.Media<
       'images' | 'files' | 'videos' | 'audios',
       true
+    > &
+      Schema.Attribute.Required;
+    guide_demarrages: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::guide-demarrage.guide-demarrage'
     >;
-    identifiant_version: Schema.Attribute.String;
+    identifiant_version: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1155,6 +1315,10 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::article-blog.article-blog': ApiArticleBlogArticleBlog;
       'api::auteur.auteur': ApiAuteurAuteur;
+      'api::contenu-libre.contenu-libre': ApiContenuLibreContenuLibre;
+      'api::entree-faq.entree-faq': ApiEntreeFaqEntreeFaq;
+      'api::exemple-demo.exemple-demo': ApiExempleDemoExempleDemo;
+      'api::guide-demarrage.guide-demarrage': ApiGuideDemarrageGuideDemarrage;
       'api::note-version.note-version': ApiNoteVersionNoteVersion;
       'api::tag.tag': ApiTagTag;
       'api::version-modele.version-modele': ApiVersionModeleVersionModele;

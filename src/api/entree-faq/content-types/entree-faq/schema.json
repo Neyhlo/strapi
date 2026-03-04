@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "entree_faqs",
+  "info": {
+    "singularName": "entree-faq",
+    "pluralName": "entree-faqs",
+    "displayName": "EntreeFAQ "
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "question": {
+      "type": "string",
+      "required": true
+    },
+    "reponse": {
+      "type": "richtext",
+      "required": true
+    },
+    "ordre": {
+      "type": "integer"
+    },
+    "categorie": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    }
+  }
+}
