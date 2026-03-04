@@ -467,12 +467,116 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiPatchNotePatchNote extends Struct.CollectionTypeSchema {
-  collectionName: 'patch_notes';
+export interface ApiArticleBlogArticleBlog extends Struct.CollectionTypeSchema {
+  collectionName: 'article_blogs';
   info: {
-    displayName: 'patch note';
-    pluralName: 'patch-notes';
-    singularName: 'patch-note';
+    displayName: 'ArticleBlog';
+    pluralName: 'article-blogs';
+    singularName: 'article-blog';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    auteurs: Schema.Attribute.Relation<'oneToMany', 'api::auteur.auteur'>;
+    corps_article: Schema.Attribute.RichText;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date_publication: Schema.Attribute.Date;
+    image_couverture: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::article-blog.article-blog'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    resume: Schema.Attribute.String;
+    slug: Schema.Attribute.String;
+    tags: Schema.Attribute.Relation<'manyToMany', 'api::tag.tag'>;
+    titre_article: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiAuteurAuteur extends Struct.CollectionTypeSchema {
+  collectionName: 'auteurs';
+  info: {
+    displayName: 'Auteur';
+    pluralName: 'auteurs';
+    singularName: 'auteur';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    avatar: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    biographie: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    lien_auteur: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::article-blog.article-blog'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::auteur.auteur'
+    > &
+      Schema.Attribute.Private;
+    nom_complet: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiNoteVersionNoteVersion extends Struct.CollectionTypeSchema {
+  collectionName: 'note_versions';
+  info: {
+    displayName: 'NoteVersion';
+    pluralName: 'note-versions';
+    singularName: 'note-version';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    contenu_detaille: Schema.Attribute.RichText;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::note-version.note-version'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    titre: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    version_modele: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::version-modele.version-modele'
+    >;
+  };
+}
+
+export interface ApiTagTag extends Struct.CollectionTypeSchema {
+  collectionName: 'tags';
+  info: {
+    displayName: 'Tag';
+    pluralName: 'tags';
+    singularName: 'tag';
   };
   options: {
     draftAndPublish: true;
@@ -482,13 +586,55 @@ export interface ApiPatchNotePatchNote extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::tag.tag'> &
+      Schema.Attribute.Private;
+    nom_tag: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    slug: Schema.Attribute.String;
+    tag: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::article-blog.article-blog'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiVersionModeleVersionModele
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'version_modeles';
+  info: {
+    displayName: 'VersionModele';
+    pluralName: 'version-modeles';
+    singularName: 'version-modele';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date_publication: Schema.Attribute.Date;
+    est_stable: Schema.Attribute.Boolean;
+    fichier_modle: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    identifiant_version: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::patch-note.patch-note'
+      'api::version-modele.version-modele'
     > &
       Schema.Attribute.Private;
+    note_version: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::note-version.note-version'
+    >;
     publishedAt: Schema.Attribute.DateTime;
-    Update: Schema.Attribute.Text;
+    taille_fichier: Schema.Attribute.Integer;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1007,7 +1153,11 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::patch-note.patch-note': ApiPatchNotePatchNote;
+      'api::article-blog.article-blog': ApiArticleBlogArticleBlog;
+      'api::auteur.auteur': ApiAuteurAuteur;
+      'api::note-version.note-version': ApiNoteVersionNoteVersion;
+      'api::tag.tag': ApiTagTag;
+      'api::version-modele.version-modele': ApiVersionModeleVersionModele;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
